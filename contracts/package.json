@@ -30,7 +30,6 @@
   "scripts": {
     "test": "npx hardhat test",
     "compile": "npx hardhat compile",
-    "deploy:ropsten": "npx hardhat --network ropsten deploy",
     "deploy:mumbai": "npx hardhat --network mumbai deploy",
     "verify:mumbai": "npx hardhat --network mumbai etherscan-verify",
     "prettier": "prettier --check \"**/*.{ts,js,sol}\"",

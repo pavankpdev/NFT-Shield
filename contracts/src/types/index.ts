@@ -2,21 +2,21 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Ownable } from "./Ownable";
-export type { ERC20 } from "./ERC20";
-export type { IERC20Metadata } from "./IERC20Metadata";
-export type { IERC20 } from "./IERC20";
-export type { Customer } from "./Customer";
-export type { Driver } from "./Driver";
-export type { PriToken } from "./PriToken";
-export type { Ride } from "./Ride";
-export type { Vehicle } from "./Vehicle";
+export type { ERC721 } from "./ERC721";
+export type { ERC721URIStorage } from "./ERC721URIStorage";
+export type { IERC721Metadata } from "./IERC721Metadata";
+export type { IERC721 } from "./IERC721";
+export type { IERC721Receiver } from "./IERC721Receiver";
+export type { ERC165 } from "./ERC165";
+export type { IERC165 } from "./IERC165";
+export type { NFTShield } from "./NFTShield";
 
 export { Ownable__factory } from "./factories/Ownable__factory";
-export { ERC20__factory } from "./factories/ERC20__factory";
-export { IERC20Metadata__factory } from "./factories/IERC20Metadata__factory";
-export { IERC20__factory } from "./factories/IERC20__factory";
-export { Customer__factory } from "./factories/Customer__factory";
-export { Driver__factory } from "./factories/Driver__factory";
-export { PriToken__factory } from "./factories/PriToken__factory";
-export { Ride__factory } from "./factories/Ride__factory";
-export { Vehicle__factory } from "./factories/Vehicle__factory";
+export { ERC721__factory } from "./factories/ERC721__factory";
+export { ERC721URIStorage__factory } from "./factories/ERC721URIStorage__factory";
+export { IERC721Metadata__factory } from "./factories/IERC721Metadata__factory";
+export { IERC721__factory } from "./factories/IERC721__factory";
+export { IERC721Receiver__factory } from "./factories/IERC721Receiver__factory";
+export { ERC165__factory } from "./factories/ERC165__factory";
+export { IERC165__factory } from "./factories/IERC165__factory";
+export { NFTShield__factory } from "./factories/NFTShield__factory";

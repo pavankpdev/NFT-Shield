@@ -7,10 +7,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { admin } = await getNamedAccounts();
 
-  await deploy("PriToken", {
+  const collection = {
+    name: "CAD Collection",
+    symbol: "CAD",
+  }
+
+  await deploy('NFTShield', {
+    args: [...Object.values(collection)],
     from: admin,
     log: true,
   });
 };
 export default func;
-func.tags = ["PriToken"];
+func.tags = ["NFTShield"];

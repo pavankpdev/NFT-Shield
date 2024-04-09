@@ -12,12 +12,8 @@ const config: HardhatUserConfig = {
     version: "0.8.0",
   },
   networks: {
-    ropsten: {
-      url: "https://speedy-nodes-nyc.moralis.io/e1ab103eda1ef6147621f342/eth/ropsten",
-      accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
-    },
     mumbai: {
-      url: `https://rpc-mumbai.maticvigil.com/v1/f79235594e1c3bda499c75b6f0338cc703995047`,
+      url: `https://polygon-mumbai.g.alchemy.com/v2/e5X5TCL-0GBdm_iP9LnsNskTgeAHPHrS`,
       chainId: 80001,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
     },

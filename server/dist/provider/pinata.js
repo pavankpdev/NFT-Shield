@@ -35,27 +35,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPinnedFiles = exports.pinFileToIPFS = void 0;
+exports.getPinnedFiles = exports.pinJSONToIPFS = exports.pinFileToIPFS = void 0;
 const sdk_1 = __importDefault(require("@pinata/sdk"));
 const fs = __importStar(require("fs"));
 const pinata = new sdk_1.default({
     pinataApiKey: process.env.PINATA_API_KEY,
     pinataSecretApiKey: process.env.PINATA_SECRET_KEY
 });
-const pinFileToIPFS = (filename, metadata, name) => __awaiter(void 0, void 0, void 0, function* () {
-    const readableStreamForFile = fs.createReadStream(`/Users/pavankumar/Documents/projects/nft-shield/server/dist/uploads/${filename}`);
+const defaultPath = '/Users/pavankumar/Documents/projects/nft-shield/server/dist/uploads';
+const pinFileToIPFS = (filename, path = defaultPath) => __awaiter(void 0, void 0, void 0, function* () {
+    const readableStreamForFile = fs.createReadStream(`${path}/${filename}`);
     const options = {
         pinataMetadata: {
-            name: name,
-            keyvalues: metadata
+            name: `${filename}`
         },
         pinataOptions: {
             cidVersion: 0
         }
     };
-    return pinata.pinFileToIPFS(readableStreamForFile, options);
+    console.log(options);
+    return pinata.pinFileToIPFS(readableStreamForFile, options).catch(console.log);
 });
 exports.pinFileToIPFS = pinFileToIPFS;
+const pinJSONToIPFS = (metadata) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const options = {
+            pinataMetadata: {
+                name: 'MyCustomName',
+            },
+            pinataOptions: {
+                cidVersion: 0
+            }
+        };
+        return pinata.pinJSONToIPFS(metadata, options);
+    }
+    catch (error) {
+        console.error('Error uploading file to IPFS:', error);
+        throw error; // Rethrow or handle error as needed
+    }
+});
+exports.pinJSONToIPFS = pinJSONToIPFS;
 const getPinnedFiles = (hash) => __awaiter(void 0, void 0, void 0, function* () {
     return pinata.pinList({
         hashContains: hash

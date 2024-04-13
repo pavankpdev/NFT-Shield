@@ -9,7 +9,7 @@ import type { Transport } from "viem";
 import { createConfig, http } from "wagmi";
 import {
   sepolia,
-  polygonMumbai,
+  polygonAmoy
 } from "wagmi/chains";
 
 const connectors = connectorsForWallets(
@@ -28,13 +28,13 @@ const connectors = connectorsForWallets(
 
 const transports: Record<number, Transport> = {
   [sepolia.id]: http(),
-  [polygonMumbai.id]: http(),
+  [polygonAmoy.id]: http(),
 };
 
 export const wagmiConfig = createConfig({
   chains: [
     sepolia,
-    polygonMumbai,
+    polygonAmoy,
   ],
   connectors,
   transports,

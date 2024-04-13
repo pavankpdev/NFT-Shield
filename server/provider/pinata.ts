@@ -17,6 +17,7 @@ type Metadata = {
     title: string,
     description: string,
     image: string
+    design: string
 }
 
 const defaultPath = '/Users/pavankumar/Documents/projects/nft-shield/server/dist/uploads'

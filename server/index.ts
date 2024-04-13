@@ -35,16 +35,29 @@ app.post('/upload', upload.single('file'), async (req: Request, res: Response) =
             return res.status(400).send('No files were uploaded.');
         }
 
-        const {attributes, title, description} = req.body;
+        const {componentID, componentDesigner, title, description} = req.body;
 
-        const pinnedImage = await pinFileToIPFS(req?.file?.filename)
-
+        const pinnedDesign = await pinFileToIPFS(req?.file?.filename)
+        const attributes = [
+            {
+                trait_type: "componentID",
+                value: componentID
+            },
+            {
+                trait_type: "componentDesigner",
+                value: componentDesigner
+            }
+        ]
         const metadata = {
             title,
             attributes,
             description,
-            image: pinnedImage?.IpfsHash
+            design: pinnedDesign?.IpfsHash,
+            image: process.env.CAD_PLACEHOLDER_IMAGE_HASH as string,
+            componentID
         }
+
+        console.log(metadata)
 
         const pinnedJSON = await pinJSONToIPFS(metadata)
 

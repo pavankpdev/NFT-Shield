@@ -5,9 +5,13 @@ import {
     FormControl,
     FormLabel,
     FormHelperText,
+    Alert,
+    AlertIcon,
 } from '@chakra-ui/react'
 import {useState} from "react";
 import {useMutation} from "@tanstack/react-query";
+import {useWriteContract, useAccount, useWaitForTransactionReceipt} from "wagmi"
+import {address as contractAddress, abi} from "@/abi/NFTShield.json"
 
 const Mint = () => {
     const [title, setTitle] = useState('');
@@ -18,8 +22,10 @@ const Mint = () => {
 
     const toast = useToast()
 
+    const { data: hash, writeContractAsync } = useWriteContract({})
+
     const uploadData = async (formData: FormData) => {
-        const response = await fetch('http://localhost:4000/upload', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
             method: 'POST',
             body: formData,
         });
@@ -31,13 +37,43 @@ const Mint = () => {
         return response.json();
     };
 
+    const { address } = useAccount()
+
+    const {mutate: mintNFT, isPending: isMinting} = useMutation({
+        mutationFn: (uri: string) => writeContractAsync({
+            address: contractAddress as `0x${string}`,
+            abi,
+            functionName: 'mintNFT',
+            args: [
+                address,
+                uri
+            ],
+        }),
+        mutationKey: ['Mint NFT'],
+        onSuccess: () => {
+            setTitle("")
+            setDescription("")
+            setComponentID("")
+            setComponentDesigner("")
+            setFile(null)
+        },
+        onError: (err: any) => {
+            toast({
+                title: "Upload Error",
+                description: err?.message || err?.response?.data.messgae || "Something went wrong while minting",
+                status: "error",
+                isClosable: true
+            })
+        }
+    })
+
     const {mutate, isPending} = useMutation({
         mutationFn: uploadData,
         mutationKey: ['Mint new NFT'],
         onSuccess: (data) => {
             const uri = data?.hash?.IpfsHash;
-
             // Make contract call
+            mintNFT(uri)
         },
         onError: (err: any) => {
             toast({
@@ -49,7 +85,7 @@ const Mint = () => {
         }
     });
 
-
+    const {isLoading: isConfirming, isSuccess: isConfirmed} = useWaitForTransactionReceipt({hash})
     const submitHandler = () => {
         const formData = new FormData();
         formData.append('title', title);
@@ -75,6 +111,14 @@ const Mint = () => {
                     gap={'1rem'}
                     mt={'1rem'}
                 >
+                    {
+                        isConfirmed && (
+                            <Alert status='success'>
+                                <AlertIcon />
+                                Your NFT was minted!
+                            </Alert>
+                        )
+                    }
                     <FormControl>
                         <FormLabel>Upload File</FormLabel>
                         <Input
@@ -124,7 +168,7 @@ const Mint = () => {
                     <Button
                         colorScheme={'purple'}
                         onClick={submitHandler}
-                        isLoading={isPending}
+                        isLoading={isPending || isMinting || isConfirming}
                     >
                         Mint NFT
                     </Button>

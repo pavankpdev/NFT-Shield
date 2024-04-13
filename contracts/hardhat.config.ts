@@ -12,9 +12,9 @@ const config: HardhatUserConfig = {
     version: "0.8.0",
   },
   networks: {
-    mumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/e5X5TCL-0GBdm_iP9LnsNskTgeAHPHrS`,
-      chainId: 80001,
+    amoy: {
+      url: `https://rpc-amoy.polygon.technology/`,
+      chainId: 80002,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
     },
   },

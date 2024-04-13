@@ -30,8 +30,8 @@
   "scripts": {
     "test": "npx hardhat test",
     "compile": "npx hardhat compile",
-    "deploy:mumbai": "npx hardhat --network mumbai deploy",
-    "verify:mumbai": "npx hardhat --network mumbai etherscan-verify",
+    "deploy:amoy": "npx hardhat --network amoy deploy",
+    "verify:amoy": "npx hardhat --network amoy etherscan-verify",
     "prettier": "prettier --check \"**/*.{ts,js,sol}\"",
     "prettier:fix": "prettier --write \"**/*.{ts,js,sol}\""
   }

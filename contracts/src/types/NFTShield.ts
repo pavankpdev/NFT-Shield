@@ -26,7 +26,7 @@ export interface NFTShieldInterface extends utils.Interface {
     "getAllTokens()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintNFT(address,uint256,string)": FunctionFragment;
+    "mintNFT(address,string)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -70,7 +70,7 @@ export interface NFTShieldInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mintNFT",
-    values: [string, BigNumberish, string]
+    values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -287,7 +287,6 @@ export interface NFTShield extends BaseContract {
 
     mintNFT(
       recipient: string,
-      tokenId: BigNumberish,
       uri: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -400,7 +399,6 @@ export interface NFTShield extends BaseContract {
 
   mintNFT(
     recipient: string,
-    tokenId: BigNumberish,
     uri: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -501,7 +499,6 @@ export interface NFTShield extends BaseContract {
 
     mintNFT(
       recipient: string,
-      tokenId: BigNumberish,
       uri: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -645,7 +642,6 @@ export interface NFTShield extends BaseContract {
 
     mintNFT(
       recipient: string,
-      tokenId: BigNumberish,
       uri: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -762,7 +758,6 @@ export interface NFTShield extends BaseContract {
 
     mintNFT(
       recipient: string,
-      tokenId: BigNumberish,
       uri: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

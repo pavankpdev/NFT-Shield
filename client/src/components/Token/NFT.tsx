@@ -1,7 +1,7 @@
 import {
     Button, Card,
     CardBody, CardFooter,
-    Divider,
+    Divider, Flex,
     Grid,
     GridItem,
     Heading,
@@ -10,9 +10,12 @@ import {
     Stat,
     StatLabel,
     StatNumber,
-    Text
+    Text,
+    Link
 } from "@chakra-ui/react";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useAccount, useReadContract} from "wagmi";
+import {abi, address} from "@/abi/NFTShield.json"
 
 type Metadata = {
     title: string,
@@ -21,9 +24,20 @@ type Metadata = {
     design: string,
     componentId: string,
     componentDesigner: string
+    tokenId: string
 }
 
 export const NFT: React.FC<Metadata> = (props) => {
+
+    const {address: account} = useAccount()
+
+    const {data} = useReadContract({
+        address: address as `0x${string}`,
+        abi,
+        functionName: "ownerOf",
+        args: [props.tokenId]
+    })
+
 
     const downloadFile = () => {
         const fileUrl = `https://coral-disturbed-blackbird-606.mypinata.cloud/ipfs/${props.design}`;
@@ -74,13 +88,36 @@ export const NFT: React.FC<Metadata> = (props) => {
                 </CardBody>
                 <Divider />
                 <CardFooter>
-                    <Button
-                        variant='solid'
-                        colorScheme='purple'
-                        onClick={downloadFile}
+                    <Flex
+                        w={'full'}
+                        justifyContent={'space-between'}
+                        alignItems={'center'}
                     >
-                        Download
-                    </Button>
+                        <Button
+                            variant='solid'
+                            colorScheme='purple'
+                            onClick={downloadFile}
+                        >
+                            Download
+                        </Button>
+                        <Flex>
+                            <Link href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/assets/${process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}/${props.tokenId}`} isExternal>
+                                <Button
+                                    variant='ghost'
+                                    colorScheme='purple'
+                                >
+                                    Track
+                                </Button>
+                            </Link>
+                            <Button
+                                variant='ghost'
+                                colorScheme='purple'
+                                onClick={downloadFile}
+                            >
+                                Transfer
+                            </Button>
+                        </Flex>
+                    </Flex>
                 </CardFooter>
             </Card>
         </>

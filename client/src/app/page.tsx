@@ -23,12 +23,14 @@ type Metadata = {
     description: string
     design: string
     image: string,
+    tokenId: string,
+    componentID: string,
     attributes: Attributes[]
 }
 
 export default function Home() {
 
-    const [tokens, setTokens] = useState<Metadata>([])
+    const [tokens, setTokens] = useState<Metadata[]>([])
 
     const {address: account} = useAccount()
 
@@ -42,14 +44,14 @@ export default function Home() {
     useEffect(() => {
         if(data) {
 
-            (data as any[])[1].map((hash: string) =>
+            (data as any[])[1].map((hash: string, i: number) =>
                 fetch(`https://coral-disturbed-blackbird-606.mypinata.cloud/ipfs/${hash}`)
                     .then((r) => r.json())
                     .then((t) => {
                         // TODO: FIX incorrect logic
                         if(t?.componentID) {
                             const token = tokens.some((tkn) => tkn?.componentID === t?.componentID)
-                            if(!token) setTokens([...tokens, t])
+                            if(!token) setTokens([...tokens, {...t, tokenId: BigInt((data as any[])[0][i]).toString()}])
                         }
                     })
             )
@@ -104,6 +106,7 @@ export default function Home() {
                                     design={token.design}
                                     componentId={(token.attributes[0]?.value)}
                                     componentDesigner={(token.attributes[1]?.value)}
+                                    tokenId={token.tokenId}
                                 />
                             )
                         })

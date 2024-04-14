@@ -16,6 +16,7 @@ import {
 import React, {useEffect, useState} from "react";
 import {useAccount, useReadContract} from "wagmi";
 import {abi, address} from "@/abi/NFTShield.json"
+import {TransferPrompt} from "@/components/Token/TransferPrompt";
 
 type Metadata = {
     title: string,
@@ -109,13 +110,11 @@ export const NFT: React.FC<Metadata> = (props) => {
                                     Track
                                 </Button>
                             </Link>
-                            <Button
-                                variant='ghost'
-                                colorScheme='purple'
-                                onClick={downloadFile}
-                            >
-                                Transfer
-                            </Button>
+                            {
+                                ((account as string).toLowerCase() === (data as string)?.toLowerCase()) && (
+                                    <TransferPrompt tokenId={props.tokenId} />
+                                )
+                            }
                         </Flex>
                     </Flex>
                 </CardFooter>

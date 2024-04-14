@@ -12,6 +12,7 @@ import {useReadContract, useAccount} from "wagmi";
 import {address, abi} from "@/abi/NFTShield.json"
 import {useEffect, useState} from "react";
 import {NFT} from "@/components/Token/NFT";
+import Link from "next/link"
 
 type Attributes = {
     trait_type: string,
@@ -43,15 +44,15 @@ export default function Home() {
     })
     useEffect(() => {
         if(data) {
-
             (data as any[])[1].map((hash: string, i: number) =>
                 fetch(`https://coral-disturbed-blackbird-606.mypinata.cloud/ipfs/${hash}`)
                     .then((r) => r.json())
                     .then((t) => {
-                        // TODO: FIX incorrect logic
                         if(t?.componentID) {
                             const token = tokens.some((tkn) => tkn?.componentID === t?.componentID)
-                            if(!token) setTokens([...tokens, {...t, tokenId: BigInt((data as any[])[0][i]).toString()}])
+                            if(!token) {
+                               setTokens((tokens: Metadata[]) => ([...tokens, {...t, tokenId: BigInt((data as any[])[0][i]).toString()}]))
+                            }
                         }
                     })
             )
@@ -77,11 +78,13 @@ export default function Home() {
                 <Heading as={'h2'} size={'lg'} >
                     Your NFTs
                 </Heading>
-                <Button
-                    colorScheme={'purple'}
-                >
-                    Mint NFT
-                </Button>
+                <Link href={'/mint'}>
+                    <Button
+                        colorScheme={'purple'}
+                    >
+                        Mint NFT
+                    </Button>
+                </Link>
             </Flex>
 
 
@@ -93,12 +96,10 @@ export default function Home() {
                 }}
                 gap={6}
             >
-                <GridItem w='100%'>
-
-                    {
-                        tokens?.map((token: Metadata) => {
-                            console.log()
-                            return (
+                {
+                    tokens?.map((token: Metadata) => {
+                        return (
+                            <GridItem w='100%'>
                                 <NFT
                                     title={token.title}
                                     description={token.description}
@@ -107,12 +108,12 @@ export default function Home() {
                                     componentId={(token.attributes[0]?.value)}
                                     componentDesigner={(token.attributes[1]?.value)}
                                     tokenId={token.tokenId}
+                                    key={token.tokenId}
                                 />
-                            )
-                        })
-                    }
-
-                </GridItem>
+                            </GridItem>
+                        )
+                    })
+                }
             </Grid>
         </Box>
 

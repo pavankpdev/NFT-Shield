@@ -8,10 +8,11 @@ import {
     Alert,
     AlertIcon,
 } from '@chakra-ui/react'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useMutation} from "@tanstack/react-query";
 import {useWriteContract, useAccount, useWaitForTransactionReceipt} from "wagmi"
 import {address as contractAddress, abi} from "@/abi/NFTShield.json"
+import { useRouter} from "next/navigation";
 
 const Mint = () => {
     const [title, setTitle] = useState('');
@@ -37,7 +38,20 @@ const Mint = () => {
         return response.json();
     };
 
-    const { address } = useAccount()
+    const { address, isConnected } = useAccount()
+
+    const router = useRouter()
+
+    useEffect(() => {
+        const walletConnectionCheck  = setTimeout(() => {
+            if(!isConnected) {
+                console.log(isConnected)
+                router.push('/sign')
+            }
+        },1000)
+
+        return () => clearTimeout(walletConnectionCheck)
+    }, [isConnected]);
 
     const {mutate: mintNFT, isPending: isMinting} = useMutation({
         mutationFn: (uri: string) => writeContractAsync({

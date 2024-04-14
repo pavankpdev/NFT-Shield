@@ -42,7 +42,7 @@ export const NFT: React.FC<Metadata> = (props) => {
 
     const downloadFile = () => {
         const fileUrl = `https://coral-disturbed-blackbird-606.mypinata.cloud/ipfs/${props.design}`;
-        const fileName = 'CAD_NFT.pdf';
+        const fileName = 'CAD_NFT.usdz';
 
         const link = document.createElement('a');
         link.href = fileUrl;

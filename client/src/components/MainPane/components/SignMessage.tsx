@@ -3,19 +3,22 @@ import { type FC, type ChangeEvent, type MouseEvent, useEffect, useState } from 
 import { Button, Input, VStack } from "@chakra-ui/react";
 
 import { useSignMessageHook, useNotify } from "@/hooks";
+import {redirect} from "next/navigation"
 
 const SignMessage: FC = () => {
   const { signature, recoveredAddress, error, isPending, signMessage } = useSignMessageHook();
-  const [messageAuth, setMessageAuth] = useState<string>("");
   const { notifyError, notifySuccess } = useNotify();
 
-  const handleMessageChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setMessageAuth(e.target.value);
-  };
+  const message = `
+    I agree to authenticate my wallet with NFT minter and understand that this action is used solely for the purpose of establishing ownership and does not allow any transactions to be made on my behalf. 
+    I am aware that no tokens will be spent, no smart contract interactions will occur, and no personal data will be shared as a result of signing this message. This signature proves ownership and connects my wallet to my user profile securely.
+    
+    By signing this message, you are only verifying your wallet ownership and agreeing to the terms of use and privacy policy of NFT Minter. Thank you for your cooperation!
+  `
 
   const handleSignMessage = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    signMessage({ message: messageAuth });
+    signMessage({ message: message });
   };
 
   useEffect(() => {
@@ -31,6 +34,8 @@ const SignMessage: FC = () => {
           </>
         ),
       });
+
+      redirect('/')
     }
 
     if (error) {
@@ -42,22 +47,13 @@ const SignMessage: FC = () => {
   }, [signature, recoveredAddress, error, notifyError, notifySuccess]);
 
   return (
-    <VStack w={"45%"} minWidth={"270px"} gap={2}>
-      <Input
-        value={messageAuth}
-        onChange={handleMessageChange}
-        type="textarea"
-        placeholder="Enter message to sign"
-      />
       <Button
-        variant="ghost"
-        onClick={handleSignMessage}
-        isLoading={isPending}
-        className="custom-button"
+          onClick={handleSignMessage}
+          isLoading={isPending}
+          colorScheme={'purple'}
       >
-        Sign Message
+          Sign Message
       </Button>
-    </VStack>
   );
 };
 

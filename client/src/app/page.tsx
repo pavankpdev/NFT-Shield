@@ -14,6 +14,7 @@ import {useEffect, useState} from "react";
 import {NFT} from "@/components/Token/NFT";
 import Link from "next/link"
 import {PlaceholderCard} from "@/components/Token/Placeholder-Card";
+import { useRouter} from "next/navigation"
 
 type Attributes = {
     trait_type: string,
@@ -34,7 +35,7 @@ export default function Home() {
 
     const [tokens, setTokens] = useState<Metadata[]>([])
 
-    const {address: account} = useAccount()
+    const {address: account, isConnected} = useAccount()
 
     const {data, isPending} = useReadContract({
         address: address as `0x${string}`,
@@ -43,8 +44,9 @@ export default function Home() {
         args: [],
         account
     })
+
     useEffect(() => {
-        if(data) {
+        if(tokens.length === 0 && data) {
             (data as any[])[1].map((hash: string, i: number) =>
                 fetch(`https://coral-disturbed-blackbird-606.mypinata.cloud/ipfs/${hash}`)
                     .then((r) => r.json())
@@ -59,6 +61,19 @@ export default function Home() {
             )
         }
     }, [data]);
+
+    const router = useRouter()
+
+    useEffect(() => {
+        const walletConnectionCheck  = setTimeout(() => {
+            if(!isConnected) {
+                console.log(isConnected)
+                router.push('/sign')
+            }
+        },1000)
+
+        return () => clearTimeout(walletConnectionCheck)
+    }, [isConnected]);
 
     return (
     <Container maxW={'container.xl'} flexDirection="column" minHeight="100vh">
@@ -79,13 +94,25 @@ export default function Home() {
                 <Heading as={'h2'} size={'lg'} >
                     Your NFTs
                 </Heading>
-                <Link href={'/mint'}>
-                    <Button
-                        colorScheme={'purple'}
-                    >
-                        Mint NFT
-                    </Button>
-                </Link>
+                <Flex
+                    gap={'1rem'}
+                >
+                    <Link href={'/owner'}>
+                        <Button
+                            colorScheme={'purple'}
+                            variant={'outline'}
+                        >
+                            Owner controls
+                        </Button>
+                    </Link>
+                    <Link href={'/mint'}>
+                        <Button
+                            colorScheme={'purple'}
+                        >
+                            Mint NFT
+                        </Button>
+                    </Link>
+                </Flex>
             </Flex>
 
 

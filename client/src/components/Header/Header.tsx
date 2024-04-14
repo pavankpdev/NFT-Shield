@@ -6,6 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 
 import logo from "../../../public/img/logo_transparent.png";
+import Link from "next/link";
 
 const Header: FC = () => {
   return (
@@ -18,7 +19,9 @@ const Header: FC = () => {
       justifyContent={"space-between"}
     >
       <HStack>
-        <Image src={logo.src} alt="logo" width={45} height={45} />
+        <Link href={'/'}>
+          <Image src={logo.src} alt="logo" width={45} height={45} />
+        </Link>
       </HStack>
 
       <HStack>

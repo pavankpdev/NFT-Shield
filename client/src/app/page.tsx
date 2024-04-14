@@ -13,6 +13,7 @@ import {address, abi} from "@/abi/NFTShield.json"
 import {useEffect, useState} from "react";
 import {NFT} from "@/components/Token/NFT";
 import Link from "next/link"
+import {PlaceholderCard} from "@/components/Token/Placeholder-Card";
 
 type Attributes = {
     trait_type: string,
@@ -97,7 +98,14 @@ export default function Home() {
                 gap={6}
             >
                 {
-                    tokens?.map((token: Metadata) => {
+                    isPending && [1,2,3].map((i) => (
+                        <GridItem key={i}>
+                            <PlaceholderCard />
+                        </GridItem>
+                    ))
+                }
+                {
+                    !isPending && tokens?.map((token: Metadata) => {
                         return (
                             <GridItem w='100%'>
                                 <NFT

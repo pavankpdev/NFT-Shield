@@ -94,13 +94,17 @@ export const NFT: React.FC<Metadata> = (props) => {
                         justifyContent={'space-between'}
                         alignItems={'center'}
                     >
-                        <Button
-                            variant='solid'
-                            colorScheme='purple'
-                            onClick={downloadFile}
-                        >
-                            Download
-                        </Button>
+                        {
+                            ((account as string).toLowerCase() === (data as string)?.toLowerCase()) && (
+                                <Button
+                                    variant='solid'
+                                    colorScheme='purple'
+                                    onClick={downloadFile}
+                                >
+                                    Download
+                                </Button>
+                            )
+                        }
                         <Flex>
                             <Link href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/assets/${process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}/${props.tokenId}`} isExternal>
                                 <Button

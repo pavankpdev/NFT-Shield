@@ -1,7 +1,7 @@
 "use client";
 import { type FC } from "react";
 
-import {HStack, Heading, Button} from "@chakra-ui/react";
+import {HStack, Box, Button, Container} from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 
@@ -10,24 +10,32 @@ import Link from "next/link";
 
 const Header: FC = () => {
   return (
-    <HStack
-      as="header"
-      p={"1.5rem"}
-      position="sticky"
-      top={0}
-      zIndex={10}
-      justifyContent={"space-between"}
+    <Box
+      backgroundColor={'white'}
     >
-      <HStack>
-        <Link href={'/'}>
-          <Image src={logo.src} alt="logo" width={45} height={45} />
-        </Link>
-      </HStack>
+      <Container
+        maxW={'container.xl'}
+      >
+        <HStack
+            as="header"
+            p={"1.5rem 0"}
+            position="sticky"
+            top={0}
+            zIndex={10}
+            justifyContent={"space-between"}
+        >
+          <HStack>
+            <Link href={'/'}>
+              <Image src={logo.src} alt="logo" width={45} height={45} />
+            </Link>
+          </HStack>
 
-      <HStack>
-        <ConnectButton />
-      </HStack>
-    </HStack>
+          <HStack>
+            <ConnectButton />
+          </HStack>
+        </HStack>
+      </Container>
+    </Box>
   );
 };
 

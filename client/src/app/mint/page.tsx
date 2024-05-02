@@ -112,83 +112,85 @@ const Mint = () => {
     };
 
     return (
-        <Container maxW={'container.xl'} flexDirection="column" minHeight="100vh">
+        <>
             <Header />
-            <Container maxW={'container.sm'} as="main" flex={1} p={4}>
-                <Heading as={'h1'}>
-                    Mint an NFT
-                </Heading>
-                <Card
-                    p={'1rem'}
-                    display={'flex'}
-                    flexDir={'column'}
-                    gap={'1rem'}
-                    mt={'1rem'}
-                >
-                    {
-                        isConfirmed && (
-                            <Alert status='success'>
-                                <AlertIcon />
-                                Your NFT was minted!
-                            </Alert>
-                        )
-                    }
-                    <FormControl>
-                        <FormLabel>Upload File</FormLabel>
-                        <Input
-                            onChange={(e) => e.target?.files && e.target?.files.length > 0 && setFile(e.target.files[0])}
-                            type='file'
-                            placeholder={"Acme Inc Design"}
-                        />
-                        <FormHelperText>Choose your CAD design</FormHelperText>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Title</FormLabel>
-                        <Input
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            type='text'
-                            placeholder={"Acme Inc Design"}
-                        />
-                        <FormHelperText>This will be used to name the NFT</FormHelperText>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Description</FormLabel>
-                        <Textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            rows={6}
-                            placeholder={'This Design is about..'}
-                        ></Textarea>
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Component ID</FormLabel>
-                        <Input
-                            value={componentID}
-                            onChange={(e) => setComponentID(e.target.value)}
-                            type='text'
-                            placeholder={"123456"}
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <FormLabel>Component Designer</FormLabel>
-                        <Input
-                            value={componentDesigner}
-                            onChange={(e) => setComponentDesigner(e.target.value)}
-                            type='text'
-                            placeholder={"Acme Inc."}
-                        />
-                    </FormControl>
-                    <Button
-                        colorScheme={'purple'}
-                        onClick={submitHandler}
-                        isLoading={isPending || isMinting || isConfirming}
+            <Container maxW={'container.xl'} flexDirection="column" minHeight="100vh">
+                <Container maxW={'container.sm'} as="main" flex={1} p={4}>
+                    <Heading as={'h1'}>
+                        Mint an NFT
+                    </Heading>
+                    <Card
+                        p={'1rem'}
+                        display={'flex'}
+                        flexDir={'column'}
+                        gap={'1rem'}
+                        mt={'1rem'}
                     >
-                        Mint NFT
-                    </Button>
-                </Card>
+                        {
+                            isConfirmed && (
+                                <Alert status='success'>
+                                    <AlertIcon />
+                                    Your NFT was minted!
+                                </Alert>
+                            )
+                        }
+                        <FormControl>
+                            <FormLabel>Upload File</FormLabel>
+                            <Input
+                                onChange={(e) => e.target?.files && e.target?.files.length > 0 && setFile(e.target.files[0])}
+                                type='file'
+                                placeholder={"Acme Inc Design"}
+                            />
+                            <FormHelperText>Choose your CAD design</FormHelperText>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Title</FormLabel>
+                            <Input
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                type='text'
+                                placeholder={"Acme Inc Design"}
+                            />
+                            <FormHelperText>This will be used to name the NFT</FormHelperText>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Description</FormLabel>
+                            <Textarea
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                rows={6}
+                                placeholder={'This Design is about..'}
+                            ></Textarea>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Component ID</FormLabel>
+                            <Input
+                                value={componentID}
+                                onChange={(e) => setComponentID(e.target.value)}
+                                type='text'
+                                placeholder={"123456"}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>Component Designer</FormLabel>
+                            <Input
+                                value={componentDesigner}
+                                onChange={(e) => setComponentDesigner(e.target.value)}
+                                type='text'
+                                placeholder={"Acme Inc."}
+                            />
+                        </FormControl>
+                        <Button
+                            colorScheme={'purple'}
+                            onClick={submitHandler}
+                            isLoading={isPending || isMinting || isConfirming}
+                        >
+                            Mint NFT
+                        </Button>
+                    </Card>
+                </Container>
             </Container>
-        </Container>
+        </>
     );
 }
 

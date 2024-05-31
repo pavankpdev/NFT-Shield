@@ -47,17 +47,19 @@ export default function Home() {
 
     useEffect(() => {
         if(tokens.length === 0 && data) {
-            (data as any[])[1].map((hash: string, i: number) =>
+            (data as any[])[1].map((hash: string, i: number) => {
+                console.log(hash)
                 fetch(`https://coral-disturbed-blackbird-606.mypinata.cloud/ipfs/${hash}`)
                     .then((r) => r.json())
                     .then((t) => {
                         if(t?.componentID) {
                             const token = tokens.some((tkn) => tkn?.componentID === t?.componentID)
                             if(!token) {
-                               setTokens((tokens: Metadata[]) => ([...tokens, {...t, tokenId: BigInt((data as any[])[0][i]).toString()}]))
+                                setTokens((tokens: Metadata[]) => ([...tokens, {...t, tokenId: BigInt((data as any[])[0][i]).toString()}]))
                             }
                         }
                     })
+                }
             )
         }
     }, [data]);
